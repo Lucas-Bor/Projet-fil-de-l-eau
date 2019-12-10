@@ -1,63 +1,167 @@
 package fr.lucasb.fildeleau;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class MainActivity extends Activity {
-    /** Called when the activity is first created. */
+public class MainActivity extends AppCompatActivity {
+
+    SQLiteDatabase sqLiteDatabase;
+
+    Button SaveButtonInSQLite, ShowSQLiteDataInListView;
+
+    String HttpJSonURL = "https://androidjsonblog.000webhostapp.com/SubjectFullForm.php";
+
+    ProgressDialog progressDialog;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Création d'une instance de ma classe patrimoineBDD
-        PatrimoineBDD patrimoineBdd = new PatrimoineBDD(this);
+        SaveButtonInSQLite = (Button)findViewById(R.id.button);
 
-        //Création d'un patrimoine
-        Patrimoine patrimoine = new Patrimoine(1, "Boissise", "une fontaine", "rond point");
+        ShowSQLiteDataInListView = (Button)findViewById(R.id.button2);
 
-        //On ouvre la base de données pour écrire dedans
-        patrimoineBdd.open();
-        //On insère le patrimoine que l'on vient de créer
-        patrimoineBdd.insertPatrimoine(patrimoine);
+        SaveButtonInSQLite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        //Pour vérifier que l'on a bien créé notre patrimoine dans la BDD
-        //on extrait le livre de la BDD grâce au titre du patrimoine que l'on a créé précédemment
-        Patrimoine patrimoineFromBdd = patrimoineBdd.getLivreWithTitre(patrimoine.getCommune());
-        //Si un livre est retourné (donc si le patrimoine à bien été ajouté à la BDD)
-        if(patrimoineFromBdd != null){
-            //On affiche les infos du patrimoine dans un Toast
-            Toast.makeText(this, patrimoineFromBdd.toString(), Toast.LENGTH_LONG).show();
-            //On modifie le titre du patrimoine
-            patrimoineFromBdd.setCommune("J'ai modifié le titre du patrimoine");
-            //Puis on met à jour la BDD
-            patrimoineBdd.updateLivre(patrimoineFromBdd.getIdentifiant(), patrimoineFromBdd);
+                SQLiteDataBaseBuild();
+
+                SQLiteTableBuild();
+
+                DeletePreviousData();
+
+                new StoreJSonDataInToSQLiteClass(MainActivity.this).execute();
+
+            }
+        });
+
+        ShowSQLiteDataInListView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, ShowDataActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+    }
+
+    private class StoreJSonDataInToSQLiteClass extends AsyncTask<Void, Void, Void> {
+
+        public Context context;
+
+        String FinalJSonResult;
+
+        public StoreJSonDataInToSQLiteClass(Context context) {
+
+            this.context = context;
         }
 
-        //On extrait le patrimoine de la BDD grâce au nouveau titre
-        patrimoineFromBdd = patrimoineBdd.getLivreWithTitre("J'ai modifié le patrimoine");
-        //S'il existe un patrimoine possédant ce titre dans la BDD
-        if(patrimoineFromBdd != null){
-            //On affiche les nouvelles informations du patrimoine pour vérifier que le titre du patrimoine a bien été mis à jour
-            Toast.makeText(this, patrimoineFromBdd.toString(), Toast.LENGTH_LONG).show();
-            //on supprime le patrimoine de la BDD grâce à son ID
-            patrimoineBdd.removeLivreWithID(patrimoineFromBdd.getIdentifiant());
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setTitle("LOADING");
+            progressDialog.setMessage("Please Wait");
+            progressDialog.show();
+
         }
 
-        //On essaye d'extraire de nouveau le patrimoine de la BDD toujours grâce à son nouveau titre
-        patrimoineFromBdd = patrimoineBdd.getLivreWithTitre("J'ai modifié le titre du patrimoine");
-        //Si aucun patrimoine n'est retourné
-        if(patrimoineFromBdd == null){
-            //On affiche un message indiquant que le patrimoine n'existe pas dans la BDD
-            Toast.makeText(this, "Ce patrimoine n'existe pas dans la BDD", Toast.LENGTH_LONG).show();
-        }
-        //Si le patrimoine existe (mais normalement il ne devrait pas)
-        else{
-            //on affiche un message indiquant que le patrimoine existe dans la BDD
-            Toast.makeText(this, "Ce patrimoine existe dans la BDD", Toast.LENGTH_LONG).show();
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            HttpServiceClass httpServiceClass = new HttpServiceClass(HttpJSonURL);
+
+            try {
+                httpServiceClass.ExecutePostRequest();
+
+                if (httpServiceClass.getResponseCode() == 200) {
+
+                    FinalJSonResult = httpServiceClass.getResponse();
+
+                    if (FinalJSonResult != null) {
+
+                        JSONArray jsonArray = null;
+                        try {
+
+                            jsonArray = new JSONArray(FinalJSonResult);
+                            JSONObject jsonObject;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                jsonObject = jsonArray.getJSONObject(i);
+
+                                String tempSubjectName = jsonObject.getString("SubjectName");
+
+                                String tempSubjectFullForm = jsonObject.getString("SubjectFullForm");
+
+                                String SQLiteDataBaseQueryHolder = "INSERT INTO "+SQLiteHelper.TABLE_NAME+" (subjectName,subjectFullForm) VALUES('"+tempSubjectName+"', '"+tempSubjectFullForm+"');";
+
+                                sqLiteDatabase.execSQL(SQLiteDataBaseQueryHolder);
+
+                            }
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+
+                    Toast.makeText(context, httpServiceClass.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
         }
 
-        patrimoineBdd.close();
+        @Override
+        protected void onPostExecute(Void result)
+
+        {
+            sqLiteDatabase.close();
+
+            progressDialog.dismiss();
+
+            Toast.makeText(MainActivity.this,"Load Done", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+
+    public void SQLiteDataBaseBuild(){
+
+        sqLiteDatabase = openOrCreateDatabase(SQLiteHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
+
+    }
+
+    public void SQLiteTableBuild(){
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "+SQLiteHelper.TABLE_NAME+"("+SQLiteHelper.Table_Column_ID+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+SQLiteHelper.Table_Column_1_Subject_Name+" VARCHAR, "+SQLiteHelper.Table_Column_2_SubjectFullForm+" VARCHAR);");
+
+    }
+
+    public void DeletePreviousData(){
+
+        sqLiteDatabase.execSQL("DELETE FROM "+SQLiteHelper.TABLE_NAME+"");
+
     }
 }
