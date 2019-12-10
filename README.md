@@ -13,4 +13,8 @@ On va faire une Restful API pour intéragir avec une database SQLite qu'on utili
 
  Présentez dans une courte note la justification de ce choix dans le cadre d'une application Android et en quoi diffère t'il du format XML (autre format utilisable) :
 
+![avantage inconvenient](https://user-images.githubusercontent.com/57918951/70535622-a907f180-1b5d-11ea-9281-ee55e6c64082.PNG)
+
+JSON est plus simple pour retirer des données sur le serveur, et les utiliser, c'est comme une mémoire permanente pour un programme. Il vous faut connaître la structure des données pour l'utiliser, de préférence vous devez être le propriétaire du fichier. Il est plus léger que XML et économise les ressources.
+
  Réalisez le diagramme UML des cas d’utilisation :
