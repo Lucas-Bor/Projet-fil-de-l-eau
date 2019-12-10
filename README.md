@@ -8,7 +8,8 @@ On va faire une Restful API pour intéragir avec une database SQLite qu'on utili
 
  Présentez dans une courte note le principe général de l'OpenData et l'étendue du régime des droits d'utilisation :
 
-Open
+	Les Open Data, ou données ouvertes, sont des données auxquelles l’accès est totalement public et libre de droit, au même titre que l’exploitation et la réutilisation. Ces données offrent de nombreuses opportunités pour étendre le savoir humain et créer de nouveaux produits et services de qualité.
+	Au lieu d'acquérir des droits sur un logiciel fini, le client commande un logiciel futur. L'éditeur peut lui concéder sur le logiciel créé un droit d'usage dans le cadre d'une licence, ou lui transférer les droits de propriété intellectuelle aux termes d'une cession de droits.
 
  Présentez dans une courte note la justification de ce choix dans le cadre d'une application Android et en quoi diffère t'il du format XML (autre format utilisable) :
 
