@@ -1,7 +1,5 @@
 # Projet-fil-de-l-eau
 
-https://phppot.com/php/php-mysql-rest-api-for-android/
-
 On va faire une Restful API pour intéragir avec une database SQLite qu'on utilisera dans le projet android studio.
 
  - Présentez dans une courte note le principe général de l'OpenData et l'étendue du régime des droits d'utilisation :
