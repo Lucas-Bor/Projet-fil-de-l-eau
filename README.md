@@ -12,10 +12,10 @@ On va faire une Restful API pour intéragir avec une database SQLite qu'on utili
 	Au lieu d'acquérir des droits sur un logiciel fini, le client commande un logiciel futur. L'éditeur peut lui concéder sur le logiciel créé un droit d'usage dans le cadre d'une licence, ou lui transférer les droits de propriété intellectuelle aux termes d'une cession de droits.
 
  Présentez dans une courte note la justification de ce choix dans le cadre d'une application Android et en quoi diffère t'il du format XML (autre format utilisable) :
+ 
+ JSON est plus simple pour retirer des données sur le serveur, et les utiliser, c'est comme une mémoire permanente pour un programme. Il vous faut connaître la structure des données pour l'utiliser, de préférence vous devez être le propriétaire du fichier. Il est plus léger que XML et économise les ressources.
 
 ![avantage inconvenient](https://user-images.githubusercontent.com/57918951/70535622-a907f180-1b5d-11ea-9281-ee55e6c64082.PNG)
-
-JSON est plus simple pour retirer des données sur le serveur, et les utiliser, c'est comme une mémoire permanente pour un programme. Il vous faut connaître la structure des données pour l'utiliser, de préférence vous devez être le propriétaire du fichier. Il est plus léger que XML et économise les ressources.
 
  Réalisez le diagramme UML des cas d’utilisation :
 ![Diagramme des cas d'utilisations Mission 2](https://user-images.githubusercontent.com/57918951/70692267-40cf2200-1cbb-11ea-89b4-775fa417a46a.PNG)
