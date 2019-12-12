@@ -22,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
     String HttpJSonURL = "https://androidjsonblog.000webhostapp.com/SubjectFullForm.php";
 
-    ProgressDialog progressDialog;
+        ProgressDialog progressDialog;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         SaveButtonInSQLite = (Button)findViewById(R.id.button);

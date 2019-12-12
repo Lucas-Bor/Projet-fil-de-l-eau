@@ -9,7 +9,7 @@ if ($conn->connect_error) {
  die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "SELECT * FROM SubjectFullFormTable";
+$sql = "SELECT commune,​identifiant,elem_patri,elem_princ FROM Patrimoine";
 
 $result = $conn->query($sql);
 
