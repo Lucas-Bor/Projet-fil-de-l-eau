@@ -1,6 +1,6 @@
 # Projet-fil-de-l-eau
 
-On va faire une Restful API pour intéragir avec une database SQLite qu'on utilisera dans le projet android studio.
+Nous allons faire une API Restful pour intéragir avec une database SQLite que l'on utilisera dans le projet android studio.
 
  - Présentez dans une courte note le principe général de l'OpenData et l'étendue du régime des droits d'utilisation :
 
