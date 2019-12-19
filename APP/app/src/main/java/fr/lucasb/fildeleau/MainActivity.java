@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,13 +15,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 public class MainActivity extends AppCompatActivity {
 
     SQLiteDatabase sqLiteDatabase;
 
     Button SaveButtonInSQLite, ShowSQLiteDataInListView;
 
-    String HttpJSonURL = "https://androidjsonblog.000webhostapp.com/SubjectFullForm.php";
+    String HttpJSonURL = "http://192.168.43.251/APISQLITE/SubjectFullForm.php";
 
         ProgressDialog progressDialog;
 
@@ -32,6 +40,31 @@ public class MainActivity extends AppCompatActivity {
         SaveButtonInSQLite = (Button)findViewById(R.id.button);
 
         ShowSQLiteDataInListView = (Button)findViewById(R.id.button2);
+
+        String URL="http://192.168.43.251/APISQLITE/SubjectFullForm.php";
+
+        RequestQueue requestQueue=Volley.newRequestQueue(this);
+
+            JsonObjectRequest objectRequest=new JsonObjectRequest(
+                    Request.Method.GET,
+                    URL,
+                    null,
+                    new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response){
+                            Log.e("Rest Response", response.toString());
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error){
+                            Log.e("Rest Response",error.toString());
+                        }
+                    }
+            );
+
+            requestQueue.add(objectRequest);
+
 
         SaveButtonInSQLite.setOnClickListener(new View.OnClickListener() {
             @Override

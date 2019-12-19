@@ -1,4 +1,4 @@
-package ShowDataActivity;
+package fr.lucasb.fildeleau;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,10 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
-import fr.lucasb.fildeleau.ListAdapter;
-import fr.lucasb.fildeleau.R;
-import fr.lucasb.fildeleau.SQLiteHelper;
 
 public class ShowDataActivity extends AppCompatActivity {
 
