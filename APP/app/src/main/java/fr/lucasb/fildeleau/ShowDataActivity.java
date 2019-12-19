@@ -1,14 +1,20 @@
-package fr.lucasb.fildeleau;
+package ShowDataActivity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
+
+import fr.lucasb.fildeleau.ListAdapter;
+import fr.lucasb.fildeleau.R;
+import fr.lucasb.fildeleau.SQLiteHelper;
 
 public class ShowDataActivity extends AppCompatActivity {
 
@@ -63,7 +69,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
         sqLiteDatabase = sqLiteHelper.getWritableDatabase();
 
-        cursor = sqLiteDatabase.rawQuery("SELECT * FROM "+SQLiteHelper.TABLE_NAME+"", null);
+        cursor = sqLiteDatabase.rawQuery("SELECT * FROM "+ SQLiteHelper.TABLE_NAME+"", null);
 
         ID_Array.clear();
         Subject_NAME_Array.clear();
@@ -85,7 +91,7 @@ public class ShowDataActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
 
-        listAdapter = new ListAdapter (ShowDataActivity.this,
+        listAdapter = new ListAdapter(ShowDataActivity.this,
 
                 ID_Array,
                 Subject_NAME_Array,
