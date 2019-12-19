@@ -9,7 +9,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM utilisateur";
+$sql = "SELECT * FROM patrimoine";
 
 $result = $conn->query($sql);
 
