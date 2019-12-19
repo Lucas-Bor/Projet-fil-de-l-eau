@@ -44,8 +44,6 @@ public class ShowDataActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // TODO Auto-generated method stub
-
                 Toast.makeText(ShowDataActivity.this, ListViewClickItemArray.get(position).toString(), Toast.LENGTH_LONG).show();
 
             }
@@ -76,7 +74,6 @@ public class ShowDataActivity extends AppCompatActivity {
 
                 ID_Array.add(cursor.getString(cursor.getColumnIndex(SQLiteHelper.Table_Column_ID)));
 
-                //Inserting Column Name into Array to Use at ListView Click Listener Method.
                 ListViewClickItemArray.add(cursor.getString(cursor.getColumnIndex(SQLiteHelper.Table_Column_1_Subject_Name)));
 
                 Subject_NAME_Array.add(cursor.getString(cursor.getColumnIndex(SQLiteHelper.Table_Column_1_Subject_Name)));

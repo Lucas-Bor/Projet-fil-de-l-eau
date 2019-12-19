@@ -15,9 +15,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String Table_Column_ID="id";
 
-    public static final String Table_Column_1_Subject_Name="subjectName";
+    public static final String Table_Column_1_Subject_Name="Commune";
 
-    public static final String Table_Column_2_SubjectFullForm="subjectFullForm";
+    public static final String Table_Column_2_SubjectFullForm="Element_patri";
 
     public SQLiteHelper(Context context) {
 
